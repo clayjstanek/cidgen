@@ -1,0 +1,10 @@
+model,own_drone_snapshots,share_seen_by_eoir,called_hostile_all,called_hostile_eoir_seen,called_hostile_eoir_unseen
+BN-learned,899,0.475,0.0067,0.0117,0.0021
+BN-oracle,899,0.475,0.0067,0.0117,0.0021
+BN-SME,899,0.475,0.0078,0.0094,0.0064
+BN-context,899,0.475,0.0067,0.0117,0.0021
+XGB-own,899,0.475,0.0033,0.007,0.0
+XGB-own+nb,899,0.475,0.0022,0.0047,0.0
+XGB-own+tq,899,0.475,0.0033,0.007,0.0
+GNN-SD10-NOTQ-EG-S1,899,0.475,0.0434,0.0,0.0826
+GRU-SD30-NOTQ-S1,899,0.475,0.03,0.0,0.0572

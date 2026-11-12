@@ -1,0 +1,25 @@
+=== SoftTracker timing (tracker wall time 96.8 s) ===
+section                                      calls   total s   share   mean ms   p50 ms   p95 ms    max ms
+look                                         1,716      3.94    4.1%     2.299     2.33     5.11     14.88
+  births                                     1,716      0.06    0.1%     0.033                        0.36
+  confirm                                    1,716      0.09    0.1%     0.052                        0.39
+  expire                                     1,716      0.05    0.0%     0.026                        0.09
+  predict                                    1,715      0.15    0.2%     0.088                        0.33
+  soft                                       1,712      3.39    3.5%     1.979                       14.15
+    build                                    8,471      0.12    0.1%     0.014                        0.15
+    cluster                                  1,200      0.16    0.2%     0.130                        0.42
+    gate                                     1,200      0.11    0.1%     0.095                        0.42
+    labels+buffer                            8,471      0.18    0.2%     0.022                        0.53
+    marginals                                8,471      1.68    1.7%     0.199                       10.23
+    update                                   8,471      0.94    1.0%     0.112                        1.26
+  tentative                                  1,715      0.13    0.1%     0.074                        1.06
+snapshot                                       150     92.81   95.9%   618.720   595.29   943.45   1199.76
+  output                                       150      0.10    0.1%     0.664                        1.55
+  window                                       150     92.71   95.8%   618.040                     1198.44
+    clusters                                   150      0.23    0.2%     1.519                        2.54
+    solve                                      464     92.45   95.5%   199.248                      721.74
+      assoc_marginals                      207,657     53.33   55.1%     0.257                       10.60
+      assoc_scores                         209,911     12.04   12.4%     0.057                        1.62
+      setup                                    464      0.56    0.6%     1.205                        2.46
+      smoother                               2,254     24.61   25.4%    10.918                       26.62
+share = section total / tracker wall time; p50/p95 per update cycle (look, snapshot)

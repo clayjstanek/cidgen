@@ -1,0 +1,49 @@
+model,vs,metric,diff,lo,hi,p_better,verdict
+BN-oracle,BN-learned,bal_acc,0.0014,0.0006,0.0025,1.0,better
+BN-oracle,BN-learned,log_loss,-0.0051,-0.0071,-0.0034,1.0,better
+BN-oracle,BN-learned,friend_called_hostile,-0.0003,-0.001,0.0,0.6285,no clear difference
+BN-SME,BN-learned,bal_acc,-0.0219,-0.0431,-0.0059,0.0015,worse
+BN-SME,BN-learned,log_loss,0.0545,0.0205,0.0959,0.0,worse
+BN-SME,BN-learned,friend_called_hostile,0.0183,0.0083,0.0312,0.0,worse
+BN-context,BN-learned,bal_acc,0.0026,-0.0082,0.0132,0.7165,no clear difference
+BN-context,BN-learned,log_loss,0.0205,0.002,0.0462,0.0115,worse
+BN-context,BN-learned,friend_called_hostile,-0.036,-0.0632,-0.0173,1.0,better
+XGB-own,BN-learned,bal_acc,0.0352,0.0237,0.0499,1.0,better
+XGB-own,BN-learned,log_loss,-0.0775,-0.1042,-0.0553,1.0,better
+XGB-own,BN-learned,friend_called_hostile,-0.0732,-0.1142,-0.0424,1.0,better
+XGB-own+nb,BN-learned,bal_acc,0.0354,0.0238,0.0503,1.0,better
+XGB-own+nb,BN-learned,log_loss,-0.0786,-0.1053,-0.0561,1.0,better
+XGB-own+nb,BN-learned,friend_called_hostile,-0.0735,-0.1146,-0.0428,1.0,better
+XGB-own+tq,BN-learned,bal_acc,0.0351,0.0237,0.0498,1.0,better
+XGB-own+tq,BN-learned,log_loss,-0.078,-0.1047,-0.0558,1.0,better
+XGB-own+tq,BN-learned,friend_called_hostile,-0.0729,-0.1142,-0.0422,1.0,better
+GNN-SD10-NOTQ-EG-S1,BN-learned,bal_acc,0.0242,0.0127,0.0404,1.0,better
+GNN-SD10-NOTQ-EG-S1,BN-learned,log_loss,-0.04,-0.0691,-0.015,0.999,better
+GNN-SD10-NOTQ-EG-S1,BN-learned,friend_called_hostile,-0.0595,-0.1081,-0.0227,0.999,better
+GRU-SD30-NOTQ-S1,BN-learned,bal_acc,0.0249,0.0139,0.0403,1.0,better
+GRU-SD30-NOTQ-S1,BN-learned,log_loss,-0.0523,-0.0788,-0.0304,1.0,better
+GRU-SD30-NOTQ-S1,BN-learned,friend_called_hostile,-0.0579,-0.1014,-0.0263,1.0,better
+BN-learned,BN-oracle,bal_acc,-0.0014,-0.0025,-0.0006,0.0,worse
+BN-learned,BN-oracle,log_loss,0.0051,0.0034,0.0071,0.0,worse
+BN-learned,BN-oracle,friend_called_hostile,0.0003,0.0,0.001,0.0,no clear difference
+BN-SME,BN-oracle,bal_acc,-0.0233,-0.0452,-0.0069,0.0005,worse
+BN-SME,BN-oracle,log_loss,0.0595,0.0245,0.1023,0.0,worse
+BN-SME,BN-oracle,friend_called_hostile,0.0186,0.0089,0.0313,0.0,worse
+BN-context,BN-oracle,bal_acc,0.0012,-0.0097,0.012,0.6095,no clear difference
+BN-context,BN-oracle,log_loss,0.0255,0.0065,0.052,0.0015,worse
+BN-context,BN-oracle,friend_called_hostile,-0.0357,-0.0627,-0.0168,1.0,better
+XGB-own,BN-oracle,bal_acc,0.0338,0.0226,0.0485,1.0,better
+XGB-own,BN-oracle,log_loss,-0.0724,-0.0981,-0.051,1.0,better
+XGB-own,BN-oracle,friend_called_hostile,-0.0729,-0.1142,-0.0421,1.0,better
+XGB-own+nb,BN-oracle,bal_acc,0.034,0.0228,0.0489,1.0,better
+XGB-own+nb,BN-oracle,log_loss,-0.0735,-0.0992,-0.052,1.0,better
+XGB-own+nb,BN-oracle,friend_called_hostile,-0.0732,-0.1146,-0.0425,1.0,better
+XGB-own+tq,BN-oracle,bal_acc,0.0337,0.0225,0.0484,1.0,better
+XGB-own+tq,BN-oracle,log_loss,-0.073,-0.0988,-0.0514,1.0,better
+XGB-own+tq,BN-oracle,friend_called_hostile,-0.0726,-0.114,-0.042,1.0,better
+GNN-SD10-NOTQ-EG-S1,BN-oracle,bal_acc,0.0228,0.0115,0.0389,1.0,better
+GNN-SD10-NOTQ-EG-S1,BN-oracle,log_loss,-0.0349,-0.0625,-0.0104,0.998,better
+GNN-SD10-NOTQ-EG-S1,BN-oracle,friend_called_hostile,-0.0591,-0.108,-0.0224,0.999,better
+GRU-SD30-NOTQ-S1,BN-oracle,bal_acc,0.0235,0.0125,0.0389,1.0,better
+GRU-SD30-NOTQ-S1,BN-oracle,log_loss,-0.0473,-0.0728,-0.026,1.0,better
+GRU-SD30-NOTQ-S1,BN-oracle,friend_called_hostile,-0.0576,-0.1012,-0.0259,1.0,better

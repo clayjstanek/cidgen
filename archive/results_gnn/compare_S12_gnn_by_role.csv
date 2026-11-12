@@ -1,0 +1,10 @@
+model,AEW,combat air patrol,own drones,returning on corridor,tactical return
+BN-learned,0.0019,0.1704,0.0067,0.0074,0.1034
+BN-oracle,0.0,0.1704,0.0067,0.0074,0.1034
+BN-SME,0.0019,0.1898,0.0078,0.0738,0.144
+BN-context,0.0,0.0648,0.0067,0.0037,0.0994
+XGB-own,0.0,0.0009,0.0033,0.0,0.0
+XGB-own+nb,0.0,0.0009,0.0022,0.0,0.0
+XGB-own+tq,0.0,0.0019,0.0033,0.0,0.0
+GNN-SD10-NOTQ-EG-S1,0.0,0.0056,0.0434,0.0,0.0081
+GRU-SD30-NOTQ-S1,0.0,0.0167,0.03,0.0148,0.0101

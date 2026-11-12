@@ -1,0 +1,4 @@
+identity,ranker,coverage,snapshots,threat_episodes,threat_captured3,top_threat_rank,top_threat_rank90,order_tau,ndcg10,top1_in_top3,threat_recall3,first_top3_delay_s,never_top3,friend_above_threat,friend_in_top3,friend_engage,airliner_in_top3,top5_changes_min,threat_tracked,threat_covered,threat_captured3_all,top1_in_top3_all,first_top3_delay_all_s,never_top3_all
+truth,ph,1.0,540,348,0.1637,10.0,20.0,-0.0087,0.3563,0.1227,0.0683,170.0,0.977,0.0,0.0056,0.0,0.0315,1.4413,0.8393,0.9778,0.1462,0.109,340.0,0.8968
+truth,threat,1.0,540,348,0.8936,1.0,4.0,0.5734,0.9069,0.8691,0.3055,0.0,0.4569,0.0,0.0056,0.0,0.0315,12.5028,0.8393,0.9778,0.8443,0.8547,30.0,0.0952
+truth,doctrine,1.0,540,348,0.891,1.0,4.0,0.5559,0.9156,0.865,0.3047,0.0,0.454,0.0086,0.0056,0.0,0.0444,13.7318,0.8393,0.9778,0.8414,0.8547,25.0,0.0635

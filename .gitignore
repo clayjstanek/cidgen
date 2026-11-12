@@ -5,10 +5,10 @@ __pycache__/
 .ipynb_checkpoints/
 
 # generated scenario runs, results, caches and timing logs (regenerate from configs + seeds)
-runs*/
-results*/
-cache*/
-timing*/
+/runs*/
+/results*/
+/cache*/
+/timing*/
 *_timingLog_*.csv
 
 # trained models and prediction dumps (large; keep in results folders or a separate store)
@@ -22,5 +22,5 @@ valpred_*.csv
 ~$*
 
 # NOTE: tests/golden/*.json is NOT ignored on purpose: the pinned VB results belong in the repository
-analysis*/
-mixedversion/
+/analysis*/
+/mixedversion/

@@ -1,0 +1,9 @@
+[
+  {
+    "scenario": "S12_gnn",
+    "model": "gru-sd30-notq-s1",
+    "temperature": 1.6706657409667969,
+    "test_acc": 0.9896144945532539,
+    "n_test": 17717
+  }
+]

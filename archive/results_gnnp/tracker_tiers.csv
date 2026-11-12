@@ -1,0 +1,4 @@
+tier,objects,coverage_mean,coverage_median,tracks_per_object_median,tracks_per_object_p90,never_tracked,confirm_delay_median_s,pos_err_median_m
+1,36,0.714,0.994,1.0,2.0,1,2.0,38.861
+2,126,0.96,0.995,2.0,18.0,0,3.0,243.542
+3,51,0.897,0.909,1.0,2.0,0,7.0,231.055

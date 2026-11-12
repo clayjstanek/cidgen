@@ -1,0 +1,16 @@
+=== MFATracker timing (tracker wall time 92.3 s) ===
+section                                      calls   total s   share   mean ms   p50 ms   p95 ms    max ms
+look                                           345     92.21   99.9%   267.274   247.58   741.94   1776.76
+  births                                       345      0.01    0.0%     0.040                        0.18
+  confirm                                      345      0.03    0.0%     0.081                        0.40
+  expire                                       345      0.01    0.0%     0.035                        0.32
+    associate                                1,169     86.12   93.3%    73.669                     1139.94
+    build                                    1,169      0.05    0.1%     0.043                        0.33
+    cluster                                    340      0.08    0.1%     0.222                        0.69
+    update                                   1,169      5.63    6.1%     4.816                      227.58
+  predict                                      344      0.04    0.0%     0.114                        0.40
+  soft                                         340     92.05   99.7%   270.724                     1775.94
+  tentative                                    344      0.04    0.0%     0.116                        1.07
+snapshot                                        30      0.07    0.1%     2.427     1.92     6.32      7.64
+  output                                        30      0.04    0.0%     1.433                        3.83
+share = section total / tracker wall time; p50/p95 per update cycle (look, snapshot)
