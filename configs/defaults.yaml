@@ -1,0 +1,133 @@
+# Combat ID synthetic scenario generator -- baseline defaults (spec v0.1, Sections 2-7).
+# Every key here can be overridden by a scenario overlay in configs/scenarios/.
+# All platform, emitter, engine and sensor values are NOTIONAL (unclassified testbed).
+
+run:
+  horizon_s: 1800            # 30 min
+  dt_truth_s: 1.0            # truth tick
+  feature_dt_s: 2.0          # per-track feature / label grid
+  snapshot_dt_s: 10.0        # edge tables (track-track, track-asset) written at this cadence
+  tiers_enabled: [1, 2]
+
+world:
+  threat_axis_deg: random    # bearing (deg, clockwise from north) the threat comes from; "random" = per run
+  threat_sector_halfwidth_deg: 45.0
+  n_assets: 3
+  asset_spread_km: 25.0
+  n_airways: 3
+  airway_alt_band_km: [9.0, 12.0]
+  corridor_offset_deg: 70.0  # friendly return corridor bearing offset from threat axis
+  visibility: 0.8            # EO/IR availability scaler, 0..1
+
+composition:
+  # Tier 2
+  n_hostile_groups: 2        # strike packages
+  package_size: 6            # strikers + escorts (jammer handled separately)
+  n_fighter_sweeps: 1
+  n_cap: 1                   # friendly CAP pairs
+  n_rtb_groups: 1
+  n_airway_tracks: 15
+  n_ga_tracks: 5
+  n_helo_flights: 1
+  n_hostile_uas_g3: 1        # larger UAS (class D)
+  n_friendly_aew: 1
+  n_friendly_tactical: 1     # friendly strike returning low and fast from the threat sector
+  n_hostile_aew: 1
+  # Tier 1
+  n_drone_swarms: 1
+  swarm_size: 8
+  n_hobbyist: 2
+  n_own_uas: 2
+  bird_flocks: 3
+  bird_flock_size: [5, 30]
+  p_drone_autonomous: 0.3    # hostile drones with no datalink emission
+
+relational:                  # starred parameters: the zero-relational ablation sets these to null
+  formation_tightness_km: 1.5
+  coordination_strength: 0.8 # probability a group flies coordinated (vs. independent members)
+  jammer_present: true
+  iff_garble_coeff: 0.3
+  package_role_structure: true
+  swarm_cohesion: 0.8
+
+ambiguity:
+  rho_variant: 0.4           # 0 = variants separable by NCTR, 1 = indistinguishable
+  p_ESM_correct: 0.8
+  esm_aoa_sigma_deg: [1.5, 3.0]   # azimuth, elevation
+  p_misassoc_base: 0.02
+  micro_doppler_overlap: 0.3
+  p_nctr_persistent_error: 0.1   # airframes whose emitter/engine library match is consistently wrong
+  esm_jam_factor: 0.35           # ESM correct-ID probability multiplier inside an active jam strobe
+  esm_jam_halfwidth_deg: 10.0
+
+iff:
+  p_IFF_valid_friend: 0.97
+  mode5_l2_fraction: 0.8
+  l2_position_error_m: 30.0
+  p_reply: 0.95
+  p_uas_iff: 0.0
+  p_GA_squawk: 0.7
+  iff_on_patriot: false
+  outage_fraction: 0.1       # long-run fraction of time a working transponder is down (episodes)
+  outage_mean_s: 180.0       # mean outage episode length
+  civil_outage_scale: 0.1    # civil (Mode 3/C) transponders fail at this fraction of the military rate
+
+deception:
+  p_IFF_spoof: 0.0
+  rate_airliner_mimic: 0.0
+  emcon_switch_on_range_km: 80.0
+  rate_bird_like_drone: 0.0
+  rate_lost_friendly: 0.02
+  rate_neutral_stray: 0.02
+  p_offaxis_ingress: 0.15    # hostile groups that approach from outside the threat sector
+
+behavior:
+  descent_onset_range_km: 100.0
+  airway_deviation_sigma_km: 1.0
+
+sensors:
+  radar_noise_scale: 1.0
+  radar_bias_sigma: {az_deg: 0.2, range_m: 50.0}
+  rcs_cal_error_dB: 2.0
+  clutter_rate: 2.0          # false alarms per scan per radar
+  jem_aspect_window_deg: 30.0
+  p_drop: 0.05
+  r_p_sector_halfwidth_deg: 60.0
+  r_p_track_capacity: 250
+  capacity_policy: drop_lowest_priority   # refuse_new | drop_oldest | drop_lowest_priority
+  n_R_C: 2
+  n_R_S: 2
+  n_R_P: 1
+  esm_baseline_km: 30.0
+  esm_sites_up: [true, true, true]
+  esm_dwell_s: 2.0
+  cueing_policy: suspicious_first          # random | suspicious_first | none
+
+  radar_types:
+    # R_C update: spec says 0.25 s; 0.5 s halves data volume. Set 0.25 for full fidelity.
+    R_C:   {update_s: 0.5,  ref_range_km: 5.0,   ref_rcs_m2: 0.01, max_range_factor: 1.8,
+            sector: full, sigma_r_m: 3.0,  sigma_az_deg: 0.5,  sigma_el_deg: 0.5,  sigma_vr_mps: 0.2,
+            res_r_m: 10.0,  res_az_deg: 2.0, height_m: 5.0,  bias_scale: 0.1, micro_doppler: true}
+    R_S:   {update_s: 2.0,  ref_range_km: 75.0,  ref_rcs_m2: 1.0,  max_range_factor: 1.5,
+            sector: full, sigma_r_m: 30.0, sigma_az_deg: 0.4,  sigma_el_deg: 0.6,  sigma_vr_mps: 1.0,
+            res_r_m: 150.0, res_az_deg: 1.5, height_m: 10.0, bias_scale: 1.0, micro_doppler: false}
+    R_P:   {update_s: 1.0,  ref_range_km: 170.0, ref_rcs_m2: 1.0,  max_range_factor: 1.4,
+            sector: threat, sigma_r_m: 15.0, sigma_az_deg: 0.15, sigma_el_deg: 0.15, sigma_vr_mps: 0.5,
+            res_r_m: 75.0,  res_az_deg: 0.6, height_m: 10.0, bias_scale: 0.5, micro_doppler: false}
+  pd_ref: 0.9                # Pd at reference range for reference RCS
+  pfa: 1.0e-6
+
+  jem:  {max_range_km: 60.0, p_available: 0.6, period_s: 4.0}
+  lidar: {max_range_km: 10.0, noise_frac: 0.05, p_segment_drop: 0.2, period_s: 2.0}
+  eoir: {max_range_km: 3.0, period_s: 1.0, p_friend_variant_recog: 0.3}
+  esm:  {max_range_km: 400.0, p_detect: 0.9, fix_gate_deg: 3.0, rf_sigma_mhz: 2.0, max_fix_sigma_km: 15.0}
+
+graph:
+  edge_gate_km: 25.0
+  tier1_edge_gate_km: 2.0
+  max_neighbors: 8           # k nearest track neighbours kept inside the gate (directed edges)
+  comove_window_s: 60.0
+  asset_edge_range_km: 300.0
+
+labels:
+  tau_s: 300.0               # urgency constant in threat priority

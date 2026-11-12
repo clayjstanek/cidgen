@@ -1,0 +1,4 @@
+# S0 -- Baseline mixed air picture, Tiers 1-2 (spec Section 8).
+# Expected: GNN better than oracle BN; proves overall value of context.
+name: S0_baseline
+overrides: {}

@@ -1,0 +1,14 @@
+# S4 -- Package with weak members (spec Section 8).
+# Per-track NCTR barely separates friendly and hostile variants (rho_variant 0.9), hostiles keep
+# radars silent until close (emcon), and packages are larger. Group context must carry the ID.
+# Expected: GNN clearly better than oracle BN.
+name: S4_weak_package_members
+overrides:
+  ambiguity:
+    rho_variant: 0.9
+    p_ESM_correct: 0.6
+  deception:
+    emcon_switch_on_range_km: 30.0
+  composition:
+    package_size: 8
+    n_hostile_groups: 3

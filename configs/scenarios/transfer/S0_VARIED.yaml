@@ -1,0 +1,21 @@
+# S0_VARIED -- training set with varied conditions (transfer study, "domain randomisation").
+# Each seed draws its own sensor and environment conditions from the ranges below. Every range
+# stops short of S9's value (shown on the right), so S9 is still an extrapolation, not a condition
+# seen in training. Pair: train S0_VARIED -> test S9. It asks whether training on varied conditions
+# makes a model degrade more gracefully under conditions it has never seen.
+# The values drawn for each seed are printed by the generator and saved in config_resolved.yaml.
+name: S0_VARIED
+base: S0_baseline
+randomize:
+  sensors.radar_noise_scale: [0.8, 1.8]            # S9: 2.5
+  sensors.rcs_cal_error_dB: [1.5, 3.0]             # S9: 4.0
+  sensors.clutter_rate: [1.0, 4.0]                 # S9: 6.0
+  sensors.p_drop: [0.03, 0.09]                     # S9: 0.12
+  ambiguity.p_ESM_correct: [0.72, 0.88]            # S9: 0.65
+  ambiguity.p_nctr_persistent_error: [0.05, 0.15]  # S9: 0.20
+  iff.p_IFF_valid_friend: [0.93, 0.99]             # S9: 0.90
+  iff.outage_fraction: [0.05, 0.15]                # S9: 0.20
+  world.visibility: [0.6, 1.0]                     # S9: 0.5
+  deception.p_offaxis_ingress: [0.05, 0.25]        # S9: 0.30
+  composition.n_hostile_groups: {int: [1, 2]}      # S9: 3
+  composition.n_airway_tracks: {int: [10, 20]}     # S9: 25

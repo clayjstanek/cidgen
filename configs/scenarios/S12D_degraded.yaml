@@ -1,0 +1,26 @@
+# S12D -- S12 under degraded sensing: a test-only shift for models trained on S12.
+#
+# The sensing changes of S9_sensor_shift, applied to S12. The traffic is NOT changed, so seed N has
+# exactly the same aircraft, drones and Tier 3 raids as S12 seed N and only what the sensors report
+# differs. (S9's force-mix and deception changes are left out, and so are its p_IFF_valid_friend and
+# p_nctr_persistent_error changes: those are drawn with the aircraft and would change the traffic.)
+#   radar noise x2.5, RCS calibration error 4 dB, 3x clutter, one surveillance radar (R-S) down,
+#   12% of detections dropped, ESM correct 65% (was 80%), IFF outages 20% of the time (was 10%),
+#   EO/IR visibility 0.5 (was 0.8).
+#
+#   python -m cidgen.generate --scenario S12D --seed 1 --seeds 20 --out runs
+name: S12D_degraded
+base: S12
+overrides:
+  sensors:
+    radar_noise_scale: 2.5
+    rcs_cal_error_dB: 4.0
+    clutter_rate: 6.0
+    n_R_S: 1
+    p_drop: 0.12
+  ambiguity:
+    p_ESM_correct: 0.65
+  iff:
+    outage_fraction: 0.2
+  world:
+    visibility: 0.5

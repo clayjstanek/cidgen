@@ -1,0 +1,12 @@
+# S12_hypersonic with the VB tracker plus protection of resolved tracks from duplicate dropping:
+# two tracks that took DIFFERENT reports in one radar look within the last 30 s are never dropped as
+# duplicates of each other (they are two objects; see TRACKERS.md, "Protecting resolved tracks").
+#
+#   python -m cidgen.generate --scenario S12_vbp --seed 1 --seeds 20 --out runs_vbp
+name: S12_vbp
+base: S12
+overrides:
+  tracking:
+    method: vb
+    gnn: {protect_resolved_s: 30.0}
+    soft: {iterations: 1}     # iteration sweep: 1 iteration matches 2, 3 and 5 on S12 and the swarm bench, 3.7x faster

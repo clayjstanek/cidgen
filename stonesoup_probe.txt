@@ -1,0 +1,18 @@
+python 3.12.13 | Windows-11-10.0.26200-SP0
+stonesoup 1.9.1 at C:\Users\cstan\anaconda3\envs\pytorch_new\Lib\site-packages\stonesoup\__init__.py
+numpy 2.5.1
+ortools 9.15.6755
+[ OK ] imports: MFADataAssociator.associate(self, tracks, detections, timestamp, **kwargs)
+[ OK ] MFA on two crossing targets (3-D, per-detection R): final components per track [4, 6], best positions [[20.0, 20.4], [18.7, -0.2]], tag example [1, 3, 3, 1, 0, 0, 2, 5, 1, 2, 3, 2, 2, 3, 4, 2, 5, 0, 2, 2]
+[ OK ] per-track process noise via a predictor subclass: velocity variance after 2 s: q=3 -> 7.0 (expect 7), q=30 -> 61.0 (expect 61): PASS
+[ OK ] custom attribute on a component: prediction type TaggedWeightedGaussianStatePrediction; attribute copied by Stone Soup: no (expected); settable: True
+
+=== MFA speed on this machine (median ms per scan, after the window fills) ===
+tracks  window   ms/scan   S12 simulation per wall-clock hour (about 5.6 looks per simulated s)
+     5       3      11.0        973 min (if every look had 5 tracks)
+     5       5      40.6        264 min (if every look had 5 tracks)
+    20       3      49.5        216 min (if every look had 20 tracks)
+    20       5     185.6         58 min (if every look had 20 tracks)
+    60       3     254.2         42 min (if every look had 60 tracks)
+    60       5     946.1         11 min (if every look had 60 tracks)
+Most S12 looks involve far fewer tracks than the whole picture once the adapter clusters them; the 5- and 20-track rows are the realistic ones.

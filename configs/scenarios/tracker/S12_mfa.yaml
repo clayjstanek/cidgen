@@ -1,0 +1,12 @@
+# S12_hypersonic with Stone Soup multi-frame assignment (MFA) for confirmed tracks, on cidgen's own track
+# management, with protection of resolved tracks from duplicate dropping (as S12_gnnp / S12_vbp).
+# Needs: pip install stonesoup ortools
+#
+#   python -m cidgen.generate --scenario S12_mfa --seed 18 --seeds 3 --out runs_mfa
+name: S12_mfa
+base: S12
+overrides:
+  tracking:
+    method: mfa
+    gnn: {protect_resolved_s: 30.0}
+    mfa: {slide_window: 3, p_detect: 0.9, max_components: 15}

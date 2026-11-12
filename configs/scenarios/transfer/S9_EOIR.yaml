@@ -1,0 +1,8 @@
+# S9_EOIR -- test set: the full S9 sensor shift, except EO/IR left at S0's capability (transfer study).
+# Identical to S9 Sensor shift except camera visibility, set back to S0's value (0.8 instead of 0.5).
+# Pair: train S0 -> test S9_EOIR. The mirror image of S0_EOIR -> S9: EO/IR matched, at S0's level.
+name: S9_EOIR
+base: S9_sensor_shift
+overrides:
+  world:
+    visibility: 0.8

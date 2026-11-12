@@ -1,0 +1,84 @@
+# Threat prioritisation doctrine -- notional defaults (cidgen v0.6).
+#
+# Edit this file to study how rules change the ranked threat list; nothing here is real doctrine.
+# Copy it (e.g. doctrine_tight.yaml) and pass --doctrine to run_tp to compare versions side by side.
+#
+# score = P(Hostile) * lethality * urgency  +  ambiguity_weight * (1 - max P) * lethality * urgency
+# then rules (in order) adjust the score, set flags and assign each track to a tier.
+# The list is ordered by tier (engage, monitor, protected), then score, then P(Friend) ascending.
+
+name: default
+weapons_control: tight          # free | tight | hold  (see engage_criteria)
+
+urgency:
+  tau_s: 300.0                  # time-to-go scale: urgency = value * exp(-TTG / tau) for assets the track will pass within radius
+  cpa_margin: 1.0               # multiply each asset's radius when testing "will pass within radius"
+  inside_radius_ttg_s: 0.0      # a track already inside an asset's radius counts as TTG = this
+  min_urgency: 0.02             # floor so distant hostiles are still ordered among themselves
+
+# Lethality from what can be observed (platform class is not known to TP). First matching row wins.
+# Fields available: obs_tier (1 = slow, low, small; 3 = speed >= 1000 m/s, hypersonic), speed (m/s), alt (m), rad_rcs_med30 (dBsm), esm_band.
+lethality:
+  - {name: tier3_high_speed, when: [[obs_tier, "==", 3]],                  value: 1.0}   # hypersonic (Tier 3); notional
+  - {name: small_uas,    when: [[obs_tier, "==", 1]],                         value: 0.4}
+  - {name: fast_jet,     when: [[speed, ">=", 150]],                          value: 0.8}
+  - {name: rotary_low,   when: [[speed, "<", 90], [alt, "<", 3000]],          value: 0.6}
+  - {name: large_slow,   when: [[rad_rcs_med30, ">=", 20], [speed, "<", 150]], value: 0.3}
+  - {name: default,      when: [],                                            value: 0.6}
+
+ambiguity_weight: 0.5           # how much an unresolved track close to an asset is pushed up
+
+# Smoothing: a score may rise immediately but decays no faster than this, so ranks do not flicker.
+hysteresis:
+  decay_tau_s: 30.0
+
+# Event-driven update: a track triggers an immediate re-rank when it is new or its time-to-go is short.
+popup:
+  ttg_s: 60.0
+
+# Identity criteria for each weapons-control state: which tracks may sit in the ENGAGE tier.
+engage_criteria:
+  free:  {min_p_hostile: 0.50}
+  tight: {min_p_hostile: 0.90, or_flag: declared_hostile}
+  hold:  {never: true}           # self-defence only: nothing is engage-eligible
+
+# Rules apply in order. Conditions are ANDed; fields are picture columns, flags set by earlier rules
+# or kept from earlier updates (sticky flags), or derived values: p_hostile, p_friend, p_neutral, ttg_s,
+# cpa_m, asset_value, lethality, urgency, score.
+# Actions: multiply (score *= x), floor (score = max(score, x)), cap (score = min(score, x)),
+#          set_flag / sticky_flag (name), tier (protected | monitor | engage), engage_block (true).
+rules:
+  - name: mode5_protected
+    when: [[iff_mode5_valid, "==", 1]]
+    do: {tier: protected, cap: 0.0, engage_block: true}
+    reason: "Valid Mode 5 reply: protected"
+
+  - name: mode5_history
+    when: [[iff_ever_valid, "==", 1], [p_friend, ">=", 0.5]]
+    do: {tier: protected, multiply: 0.2, engage_block: true}
+    reason: "Replied validly earlier and looks friendly: probable IFF outage"
+
+  - name: friendly_corridor
+    when: [[corridor_dist_m, "<", 3000], [p_friend, ">=", 0.3]]
+    do: {multiply: 0.5}
+    reason: "In the friendly return corridor"
+
+  - name: civil_airway
+    when: [[airway_xtrack_m, "<", 2000], [airway_alt_inband, "==", 1], [iff_mode3c, "==", 1], [descending_closing, "==", 0]]
+    do: {cap: 0.05, engage_block: true}
+    reason: "Conforming to an airway with a civil squawk"
+
+  - name: hostile_act
+    when: [[descending_closing, "==", 1], [ttg_s, "<", 180], [p_friend, "<", 0.2]]
+    do: {sticky_flag: declared_hostile, floor: 0.5}
+    reason: "Descending and closing on an asset, under 3 minutes: hostile act criteria met"
+
+  - name: threat_sector_ingress
+    when: [[threat_offset_deg, "<", 30], [asset_closure_mps, ">", 50], [p_hostile, ">=", 0.5]]
+    do: {multiply: 1.3}
+    reason: "Inbound from the threat sector"
+
+  - name: imminent                # closing required: a track loitering inside an asset's radius has TTG 0
+    when: [[ttg_s, "<", 60], [asset_closure_mps, ">", 20], [p_friend, "<", 0.5]]
+    do: {floor: 0.6, set_flag: popup}
+    reason: "Under 60 s to an asset and not identified friend"

@@ -1,0 +1,10 @@
+# S0_EOIR -- training set with EO/IR capability matched to S9 (transfer study).
+# Identical to S0 Baseline except camera visibility, set to S9's value (0.5 instead of 0.8).
+# Pair: train S0_EOIR -> test S9. EO/IR no longer changes between training and test; everything
+# else in S9 still does. If EO/IR reliance caused the GNN's fratricide under shift, it should
+# largely disappear here.
+name: S0_EOIR
+base: S0_baseline
+overrides:
+  world:
+    visibility: 0.5

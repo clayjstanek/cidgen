@@ -1,0 +1,9 @@
+# S0_NOEOIR -- training set with no EO/IR at all (transfer study).
+# Identical to S0 Baseline except the camera never reports (visibility 0). The model cannot learn
+# to rely on EO/IR, so it must clear friendly drones from other cues. Pair: train S0_NOEOIR -> test S9.
+# Compared with S0_EOIR -> S9, it shows whether having less camera in training is enough, or none is needed.
+name: S0_NOEOIR
+base: S0_baseline
+overrides:
+  world:
+    visibility: 0.0

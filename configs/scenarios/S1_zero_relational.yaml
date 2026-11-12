@@ -1,0 +1,13 @@
+# S1 -- Zero-relational ablation (spec Section 8).
+# Every starred (relational) dial at its null value. Group members fly independent
+# routes, no jammer, no IFF garble, no swarm cohesion, no package role geometry.
+# Expected: GNN ties the oracle BN. If it wins, information is leaking.
+name: S1_zero_relational
+overrides:
+  relational:
+    formation_tightness_km: .inf
+    coordination_strength: 0.0
+    jammer_present: false
+    iff_garble_coeff: 0.0
+    package_role_structure: false
+    swarm_cohesion: 0.0

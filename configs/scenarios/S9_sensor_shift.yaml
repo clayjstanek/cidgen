@@ -1,0 +1,30 @@
+# S9 -- Sensor and environment shift (spec Section 8).
+# Used only as a TEST set for models trained on S0: noisier radars with worse RCS calibration,
+# one Sentinel-class radar down, more clutter, poorer ESM classification, more IFF outages, worse
+# visibility, and a heavier, different force mix. Nothing here is seen in training.
+# Expected: every learned model degrades; the question is which degrades least and stays calibrated.
+#   python -m cidgen.models.train_gnn --runs "runs/S0_*" --test-runs "runs/S9_*" --out results
+#   python -m cidgen.models.compare   --runs "runs/S0_*" --test-runs "runs/S9_*" --preds results --out results
+name: S9_sensor_shift
+overrides:
+  sensors:
+    radar_noise_scale: 2.5
+    rcs_cal_error_dB: 4.0
+    clutter_rate: 6.0
+    n_R_S: 1
+    p_drop: 0.12
+  ambiguity:
+    p_ESM_correct: 0.65
+    p_nctr_persistent_error: 0.2
+  iff:
+    p_IFF_valid_friend: 0.9
+    outage_fraction: 0.2
+  world:
+    visibility: 0.5
+  composition:
+    n_hostile_groups: 3
+    n_airway_tracks: 25
+    n_ga_tracks: 10
+    n_drone_swarms: 2
+  deception:
+    p_offaxis_ingress: 0.3

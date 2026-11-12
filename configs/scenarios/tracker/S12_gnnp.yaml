@@ -1,0 +1,11 @@
+# S12_hypersonic with the GNN tracker plus protection of resolved tracks from duplicate dropping:
+# two tracks that took DIFFERENT reports in one radar look within the last 30 s are never dropped as
+# duplicates of each other (they are two objects; see TRACKERS.md, "Protecting resolved tracks").
+#
+#   python -m cidgen.generate --scenario S12_gnnp --seed 1 --seeds 20 --out runs_gnnp
+name: S12_gnnp
+base: S12
+overrides:
+  tracking:
+    method: gnn
+    gnn: {protect_resolved_s: 30.0}

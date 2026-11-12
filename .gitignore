@@ -1,0 +1,26 @@
+# cidgen: keep code, configs and docs under version control; keep generated data out.
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# generated scenario runs, results, caches and timing logs (regenerate from configs + seeds)
+runs*/
+results*/
+cache*/
+timing*/
+*_timingLog_*.csv
+
+# trained models and prediction dumps (large; keep in results folders or a separate store)
+*.pt
+*.pkl
+pred_*.csv
+valpred_*.csv
+
+# delivery zips and office files
+*.zip
+~$*
+
+# NOTE: tests/golden/*.json is NOT ignored on purpose: the pinned VB results belong in the repository
+analysis*/
+mixedversion/

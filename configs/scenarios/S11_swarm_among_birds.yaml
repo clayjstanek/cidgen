@@ -1,0 +1,15 @@
+# S11 -- Drone swarm among birds (spec Section 8).
+# Two swarms, dense bird flocks, hobbyists and own UAS near the assets, harder micro-Doppler
+# separation and some bird-like drones. Coordinated motion should separate swarms from flocks.
+# Expected: GNN better than oracle BN.
+name: S11_swarm_among_birds
+overrides:
+  composition:
+    n_drone_swarms: 2
+    bird_flocks: 12
+    n_hobbyist: 4
+    n_own_uas: 4
+  ambiguity:
+    micro_doppler_overlap: 0.6
+  deception:
+    rate_bird_like_drone: 0.3

@@ -1,0 +1,12 @@
+# S7 -- Deception (spec Section 8).
+# Airliner mimics with civil squawks, hostile IFF spoofing including replayed Mode 5 Level 2
+# replies, and bird-like hostile drones. Behavior and context must override a lone cue.
+# Expected: GNN better than oracle BN.
+name: S7_deception
+overrides:
+  deception:
+    rate_airliner_mimic: 0.6
+    p_IFF_spoof: 0.2
+    rate_bird_like_drone: 0.5
+  composition:
+    n_drone_swarms: 2

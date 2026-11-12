@@ -1,0 +1,12 @@
+# S12_hypersonic with the VB tracker in place of association-by-label.
+# Same seeds give the same world, objects and sensor reports as S12; only tracking differs.
+#
+#   python -m cidgen.generate --scenario S12_vb --seed 1 --seeds 20 --out runs_vb
+name: S12_vb
+base: S12
+overrides:
+  tracking:
+    method: vb
+    # soft:  {p_detect: 0.9, min_assoc_mass: 0.2, window_s: 20.0, iterations: 5, tol_m: 1.0}
+    # gnn:   {gate_chi2: 16.0, confirm_hits: 3, confirm_window_s: 10.0, tier3_min_alt_m: 15000.0}
+    # match: {match_gate_m: 2000.0, match_gate_sigmas: 4.0, iff_gate_chi2: 9.21}   # scoring / IFF gate

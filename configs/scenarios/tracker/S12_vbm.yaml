@@ -1,0 +1,12 @@
+# S12_hypersonic with the VBM tracker (variational, merged reports) in place of association-by-label.
+# Same seeds give the same world, objects and sensor reports as S12; only tracking differs.
+#
+#   python -m cidgen.generate --scenario S12_vbm --seed 1 --seeds 20 --out runs_vbm
+name: S12_vbm
+base: S12
+overrides:
+  tracking:
+    method: vbm
+    # merge: {max_set: 6, p_unresolved_min: 0.02, merge_spread: 0.5, max_cluster_tracks: 10, protect_resolved_s: 30.0}
+    # gnn:   {gate_chi2: 16.0, confirm_hits: 3, confirm_window_s: 10.0, tier3_min_alt_m: 15000.0}
+    # match: {match_gate_m: 2000.0, match_gate_sigmas: 4.0, iff_gate_chi2: 9.21}   # scoring / IFF gate

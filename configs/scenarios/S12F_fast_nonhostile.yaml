@@ -1,0 +1,82 @@
+# S12F -- S12 plus FAST NON-HOSTILE Tier 3 objects: the Tier 3 false-alarm test.
+#
+# In S12 every Tier 3 object is hostile, so a model can score 100% by learning "fast means hostile".
+# S12F keeps S12's four hostile raids unchanged (same seeds give the same hostile tracks) and adds
+# friendly and neutral objects that move like them. Nothing about them is meant to be realistic:
+# the kinematics below are COPIES of the team's HCM-GENERIC and J profiles, so the only differences
+# from the hostile tracks are allegiance, direction of flight, ingress bearing and (for one group)
+# a Mode 5 transponder. Replace them with your own non-hostile profiles if you have better ones.
+#
+#   python -m cidgen.generate --scenario S12F --seed 1 --seeds 20 --out runs
+name: S12F_fast_nonhostile
+base: S12
+overrides:
+  hypersonic:
+    profiles:
+      FRIEND-FAST-OUT:                     # own fast object leaving an asset, no IFF (HCM-GENERIC kinematics)
+        class: X
+        allegiance: friend
+        variant: blue
+        direction: outbound
+        transponder: none
+        segments:
+          - phase: cruise
+            duration_s: 240
+            alt_km:
+              - {dist: uniform, low: 25.0, high: 28.0}
+              - {dist: uniform, low: 20.0, high: 24.0}
+            speed_mps:
+              - {dist: uniform, low: 1910.0, high: 2100.0}
+              - {dist: uniform, low: 1700.0, high: 1900.0}
+            weave_g: {dist: uniform, low: 0.5, high: 2.0}
+            weave_period_s: 10
+          - phase: launch                  # HCM-GENERIC's terminal leg, flown backwards: climb-out from the asset
+            duration_s: 34
+            alt_km: [null, 0.0]
+            speed_mps: [null, {dist: uniform, low: 1000.0, high: 1200.0}]
+
+      FRIEND-FAST-OUT-M5:                  # the same, answering IFF Mode 5 Level 2
+        class: X
+        allegiance: friend
+        variant: blue
+        direction: outbound
+        transponder: mode5_l2
+        segments:
+          - phase: cruise
+            duration_s: 240
+            alt_km:
+              - {dist: uniform, low: 25.0, high: 28.0}
+              - {dist: uniform, low: 20.0, high: 24.0}
+            speed_mps:
+              - {dist: uniform, low: 1910.0, high: 2100.0}
+              - {dist: uniform, low: 1700.0, high: 1900.0}
+            weave_g: {dist: uniform, low: 0.5, high: 2.0}
+            weave_period_s: 10
+          - phase: launch                  # HCM-GENERIC's terminal leg, flown backwards: climb-out from the asset
+            duration_s: 34
+            alt_km: [null, 0.0]
+            speed_mps: [null, {dist: uniform, low: 1000.0, high: 1200.0}]
+
+      NEUTRAL-FAST-IN:                     # non-hostile fast object inbound from ANY bearing, no IFF (J kinematics)
+        class: G
+        allegiance: neutral
+        variant: civil
+        transponder: none
+        segments:
+          - phase: glide
+            duration_s: 200
+            alt_km: [{dist: uniform, low: 55, high: 70}, {dist: uniform, low: 20, high: 50}]
+            speed_mps: [{dist: uniform, low: 1500, high: 4000}, null]
+          - {phase: terminal, duration_s: 80, alt_km: [null, 0.0],
+             speed_mps: [null, {dist: uniform, low: 1000, high: 1200}]}
+
+    # Lists replace, so S12's raids are restated first, unchanged and in the same order.
+    # The non-hostile waves come last, so they cannot change the hostile tracks.
+    raid:
+      - {profile: HGV-GENERIC,        count: 4, arrival_window_s: [600, 1000]}   # raid 1 (as S12)
+      - {profile: J,                  count: 6, start_after_prev_s: [50, 70]}    # raid 2 (as S12)
+      - {profile: HCM-GENERIC,        count: 4, start_after_prev_s: [100, 120]}  # raid 3 (as S12)
+      - {profile: PLUMBING-TEST,      count: 3, arrival_window_s: [600, 1700]}   # as S12
+      - {profile: FRIEND-FAST-OUT,    count: 2, arrival_window_s: [300, 1500]}   # time = departure from the asset
+      - {profile: FRIEND-FAST-OUT-M5, count: 2, arrival_window_s: [300, 1500]}
+      - {profile: NEUTRAL-FAST-IN,    count: 2, arrival_window_s: [600, 1700], ingress_halfwidth_deg: 180}
