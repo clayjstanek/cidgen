@@ -382,14 +382,13 @@ class SoftTracker(GNNTracker):
         if not looks:
             T_s.__exit__(None, None, None)
             return
-        anchors, seq = {}, {}
+        anchors = {}
         for i in members:
             h = self.hist.get(i)
             if not h:
                 T_s.__exit__(None, None, None)
                 return
             anchors[i] = h[0]                                     # state at or before the window start
-            seq[i] = [(L, n) for L in looks for n, k in enumerate(L["tids"]) if int(k) == i and L["t"] > h[0][0]]
         # initial q(x): the filtered states at each look time
         means = {i: {} for i in members}
         for i in members:
@@ -427,7 +426,9 @@ class SoftTracker(GNNTracker):
             change = 0.0
             T_x = tm("snapshot/window/solve/smoother"); T_x.__enter__()
             for i in members:
-                times = sorted(betas[i])
+                # only looks AFTER the anchor: the anchor state already contains the look at its own time
+                # (a look exactly at the window start used to be applied a second time, as a dt = 0 step)
+                times = sorted(t for t in betas[i] if t > anchors[i][0])
                 if not times:
                     continue
                 steps = [(t, betas[i][t][0], betas[i][t][1]["Z"], betas[i][t][1]["R"], betas[i][t][1]["Ri"])

@@ -263,3 +263,22 @@ def test_vb_isolated_tracks_are_not_re_solved():
     e_f, _, _ = _vb({"soft": {"iterations": 0}}).run(r, grid)
     assert tr.stats["window_solves"] == 0
     pd.testing.assert_frame_equal(e_w, e_f, check_exact=True)
+
+
+def test_window_never_reuses_the_anchor_look(monkeypatch):
+    """The window smoother starts from each track's anchor state, which already contains the look at the
+    anchor's own time, so that look must not be applied again as a window step (it was, as a dt = 0 step,
+    whenever a look fell exactly at the window start)."""
+    import cidgen.trackers.soft as soft
+    seen = []
+    real = soft.soft_rts
+
+    def recording(ta, xa, Pa, steps, q):
+        seen.append((ta, [s[0] for s in steps]))
+        return real(ta, xa, Pa, steps, q)
+
+    monkeypatch.setattr(soft, "soft_rts", recording)
+    r = _pair(1, horizon=80.0)                     # looks every 2 s = on the grid, so looks fall on window starts
+    tr = _vb(); tr.run(r, np.arange(0.0, 80.0, 2.0))
+    assert len(seen) > 20 and any(ta > 0 for ta, _ in seen)           # windows long enough to have anchors
+    assert all(t > ta for ta, ts in seen for t in ts), "a window step at or before its anchor time"
