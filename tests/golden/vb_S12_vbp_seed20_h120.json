@@ -1,0 +1,32 @@
+{
+  "scenario": "S12_vbp",
+  "seed": 20,
+  "horizon": 120.0,
+  "method": "vb",
+  "config_fingerprint": "395a0831106a0d7385f017041aea97aa",
+  "counts": {
+    "radar_reports": 9135,
+    "track_rows": 1984,
+    "confirmed_tracks": 46,
+    "reports_on_confirmed_tracks": 6111,
+    "stats_bp_clusters": 0,
+    "stats_clusters": 2819,
+    "stats_looks_soft": 476,
+    "stats_max_cluster_tracks": 11,
+    "stats_window_iters": 177,
+    "stats_window_solves": 177,
+    "stats_window_tracks": 1514
+  },
+  "values": {
+    "coverage_mean": 0.88313618173258,
+    "tracks_per_object_mean": 0.9166666666666666,
+    "false_track_row_frac": 0.0015120967741935483,
+    "pos_err_median_m": 62.62754371414026,
+    "est_pos_mean_e": 8289.423561511036,
+    "est_pos_mean_n": 8916.39971698445,
+    "est_pos_mean_u": 1758.7469575284874,
+    "est_pos_abs_sum": 75152017.25781837,
+    "est_vel_abs_sum": 131317.2104702662,
+    "est_pos_sigma_sum": 186660.84766662697
+  }
+}
